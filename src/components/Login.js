@@ -166,8 +166,8 @@ class Login extends Component {
         },
       }).then(res => {
         if (!res.errors) {
-          const { token, user } = res.data.login
-          this._saveUserData(token, user)
+          const { token } = res.data.login
+          this._saveUserData(token)
 
           this.props.history.push(`/`)
 
@@ -194,8 +194,8 @@ class Login extends Component {
         },
       }).then(res => {
           if (!res.errors) {
-            const { token, user } = res.data.signup
-            this._saveUserData(token, user)
+            const { token } = res.data.signup
+            this._saveUserData(token)
 
             this.props.history.push(`/`)
           } else {
@@ -215,9 +215,31 @@ class Login extends Component {
     }
   }
   
-  _saveUserData = (token, user) => {
+  _saveUserData = async (token) => {
+    console.log("token ", token)
     localStorage.setItem(AUTH_TOKEN, token)
-    localStorage.setItem(ME_ID, user.id)
+
+    const result = await this.props.meMutation({
+      variables: {
+        token
+      },
+    }).then(res => {
+        if (!res.errors) {
+          const { _id } = res.data.me
+          localStorage.setItem(ME_ID, _id)
+        } else {
+            // handle errors with status code 200
+            console.log('200 errors ', res.errors)
+            if (res.errors.length > 0) this.setState({errors: res.errors})
+        }
+    })
+    .catch(e => {
+        // GraphQL errors can be extracted here
+        if (e.graphQLErrors) {
+            console.log('catch errors ', e.graphQLErrors)
+            this.setState({errors: e.graphQLErrors})
+        }
+    })
   }
 }
 
@@ -225,9 +247,6 @@ const SIGNUP_MUTATION = gql`
   mutation SignupMutation($email: String!, $password: String!, $firstName: String!, $lastName: String!) {
     signup(email: $email, password: $password, firstName: $firstName, lastName: $lastName) {
       token
-      user {
-        id
-      }
     }
   }
 `
@@ -236,9 +255,14 @@ const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
-      user {
-        id
-      }
+    }
+  }
+`
+
+const ME_MUTATION = gql`
+  mutation MeMutation($token: String) {
+    me(token: $token) {
+      _id
     }
   }
 `
@@ -246,4 +270,5 @@ const LOGIN_MUTATION = gql`
 export default withRouter(withStyles(styles)(compose(
   graphql(SIGNUP_MUTATION, { name: 'signupMutation' }),
   graphql(LOGIN_MUTATION, { name: 'loginMutation' }),
+  graphql(ME_MUTATION, { name: 'meMutation' }),
 )(Login)))

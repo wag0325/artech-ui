@@ -68,13 +68,9 @@ class Header extends Component {
           <Toolbar className={classes.headerInner}>
             <Link className={classes.logoWrapper} to='/'>
             <Typography variant='title' className={classes.logo}>
-              modsetter
-            </Typography>
-            <Typography variant='subheading' className={classes.logoDescription}>
-              beta
+              ARTech
             </Typography>
             </Link>
-            <SearchForm />
             <HeaderMenu />            
           </Toolbar>
         </AppBar>

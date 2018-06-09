@@ -51,7 +51,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { AUTH_TOKEN } from './constants'
 import { ApolloLink } from 'apollo-link'
 
-const httpLink = new HttpLink({ uri: 'http://localhost:3000/graphql' })
+// const httpLink = new HttpLink({ uri: 'http://localhost:8000/graphql' })
+const httpLink = new HttpLink({ uri: 'http://ec2-54-204-77-252.compute-1.amazonaws.com/graphql' })
 
 const middlewareAuthLink = new ApolloLink((operation, forward) => {
   const token = localStorage.getItem(AUTH_TOKEN)

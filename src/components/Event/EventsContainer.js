@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
-import Paper from 'material-ui/Paper'
+
+import { parse } from 'query-string'
+
+import EventList from './EventList'
 
 const styles = theme => ({
   root: {
-    marginTop: theme.spacing.unit * 3,
-    padding: 30
+    flexGrow: 1,
+    position: 'relative',
+    marginTop: theme.spacing.unit * 4,
   },
   button: {
     margin: theme.spacing.unit,
@@ -17,22 +21,24 @@ const styles = theme => ({
   },
 })
 
-class ShopContainer extends Component {
-	state = {
-		modalOpen: false,
-	}
+class EventsContainer extends Component {
 
 	render() {
 		const { classes } = this.props
+		let parsedLoc = null
+		
+		if (this.props.location) parsedLoc = parse(this.props.location.search)
 
+		
 		return(
 			<div className={classes.root}>
 				<Grid container spacing={24}>
-	        <Grid item xs={12} sm={6}>
+					<Grid item xs={12} sm={2}>
 	        </Grid>
-	        <Grid item xs={12} sm={6}>
-	        	<Paper className={classes.root} elevation={1}>
-	        	</Paper>
+	        <Grid item xs={12} sm={8}>
+	        	<EventList location={parsedLoc}/>
+	        </Grid>
+	        <Grid item xs={12} sm={2}>
 	        </Grid>
 				</Grid>
 			</div>
@@ -40,4 +46,4 @@ class ShopContainer extends Component {
 	}
 }
 
-export default withStyles(styles)(ShopContainer)
+export default withStyles(styles)(EventsContainer)

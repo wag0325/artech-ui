@@ -92,15 +92,8 @@ class HeaderMenu extends Component {
 		        </IconButton>
 	      	</Tooltip>
       	</Link></div>
-        <div className={classes.menuItem}><Link className={classes.menuItemLink} to="/shop">
-        	<Tooltip id="tooltip-icon" title="Explore">
-		        <IconButton aria-label="Explore">
-		          <Explore />
-		        </IconButton>
-	      	</Tooltip>
-        </Link></div>
-        <div className={classes.menuItem}><Link className={classes.menuItemLink} to="/collage">
-					<Tooltip id="tooltip-icon" title="Create A Look">
+        <div className={classes.menuItem}><Link className={classes.menuItemLink} to="/events">
+					<Tooltip id="tooltip-icon" title="Events">
 		        <IconButton aria-label="CreateALook">
 		          <LocalActivity />
 		        </IconButton>

@@ -18,8 +18,10 @@ import LoginContainer from './Container/LoginContainer'
 import ResetContainer from './Container/ResetContainer'
 import HomeContainer from './Container/HomeContainer'
 import SearchContainer from './Container/SearchContainer'
-import CollageContainer from './Container/CollageContainer'
-import ShopContainer from './Container/ShopContainer'
+import EventsContainer from './Event/EventsContainer'
+import EventContainer from './Event/EventContainer'
+import CreateEventContainer from './Event/CreateEventContainer'
+import PostsContainer from './Post/PostsContainer'
 
 class App extends Component {
   render() {
@@ -28,11 +30,13 @@ class App extends Component {
         <Header />
         <div className="">
           <Switch>
-            <Route exact path='/' component={HomeContainer}/>
+            <Route exact path='/' component={EventsContainer}/>
             <Route exact path='/login' component={LoginContainer}/>
             <Route exact path='/forgot' component={ResetContainer}/>
-            <Route exact path='/collage' component={CollageContainer}/>
-            <Route exact path='/shop' component={ShopContainer}/>
+            <Route exact path='/posts' component={PostsContainer}/>
+            <Route exact path='/events' component={EventsContainer}/>
+            <Route exact path='/events/new' component={CreateEventContainer}/>
+            <Route path='/e/:id' component={EventContainer}/>
           </Switch>
         </div>
       </div>
